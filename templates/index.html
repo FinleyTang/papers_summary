@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arXiv Papers on Computer Security</title>
+    <!-- 引入Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">arXiv Papers on Computer Security</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Authors</th>
+                    <th>Summary</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paper in papers %}
+                    <tr>
+                        <td>{{ paper.title }}</td>
+                        <td>{{ paper.authors }}</td>
+                        <td>
+                            {% if paper.summary | length > 100 %}
+                                {{ paper.summary[:100] }}...
+                                <a href="#collapse{{ loop.index }}" data-toggle="collapse">more</a>
+                                <div id="collapse{{ loop.index }}" class="collapse">{{ paper.summary }}</div>
+                            {% else %}
+                                {{ paper.summary }}
+                            {% endif %}
+                        </td>
+                        <td><a href="{{ paper.link }}" class="btn btn-primary" target="_blank">Read more</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <!-- 引入Bootstrap JS和依赖 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
