@@ -10,7 +10,14 @@
 <body>
     <div class="container">
         <h1 class="my-4">arXiv Papers on Computer Security</h1>
-        <table class="table table-striped">
+        <form method="POST" action="/">
+            <div class="form-group">
+                <label for="query">Search Keywords:</label>
+                <input type="text" class="form-control" id="query" name="query" placeholder="Enter keywords" value="{{ query }}">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <table class="table table-striped my-4">
             <thead>
                 <tr>
                     <th>Title</th>

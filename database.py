@@ -11,16 +11,17 @@ def init_db():
             authors TEXT,
             summary TEXT,
             link TEXT,
-            updated TIMESTAMP
+            updated TIMESTAMP,
+            query TEXT
         )
     ''')
     conn.commit()
     conn.close()
 
-def get_papers():
+def get_papers(query):
     conn = sqlite3.connect('papers.db')
     c = conn.cursor()
-    c.execute('SELECT * FROM papers')
+    c.execute('SELECT * FROM papers WHERE query = ?', (query,))
     papers = c.fetchall()
     conn.close()
     return papers
@@ -29,16 +30,16 @@ def save_papers(papers):
     conn = sqlite3.connect('papers.db')
     c = conn.cursor()
     c.executemany('''
-        INSERT INTO papers (title, authors, summary, link, updated)
-        VALUES (?, ?, ?, ?, ?)
+        INSERT INTO papers (title, authors, summary, link, updated, query)
+        VALUES (?, ?, ?, ?, ?, ?)
     ''', papers)
     conn.commit()
     conn.close()
 
-def needs_update():
+def needs_update(query):
     conn = sqlite3.connect('papers.db')
     c = conn.cursor()
-    c.execute('SELECT MAX(updated) FROM papers')
+    c.execute('SELECT MAX(updated) FROM papers WHERE query = ?', (query,))
     last_updated = c.fetchone()[0]
     conn.close()
 
